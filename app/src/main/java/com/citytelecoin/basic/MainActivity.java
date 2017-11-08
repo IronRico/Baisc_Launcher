@@ -1,5 +1,7 @@
 package com.citytelecoin.basic;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,10 +17,15 @@ import android.view.View.OnClickListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
     final Context context = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
 
     }
 
@@ -57,16 +67,19 @@ public class MainActivity extends AppCompatActivity {
             exitDialogBuilder.setTitle("Enter Admin Password");
             // Setting an EditText view to get user input
             final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
             input.setTransformationMethod(new PasswordTransformationMethod());
             exitDialogBuilder.setView(input);
+
             // set dialog message
             exitDialogBuilder.setMessage("Password Required").setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // if this button is clicked, close
-                    // current activity
-                    MainActivity.this.finish();
-                }
+                public void onClick(DialogInterface dialog, int id){
+
+                if(input.getText().toString().equals("bob")){ MainActivity.this.finish();}
+                else{Toast.makeText(getApplicationContext(), "Wrong Password",Toast.LENGTH_SHORT).show();}
+
+            }
+
             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     // if this button is clicked, just close
@@ -83,12 +96,11 @@ public class MainActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
         return false;
-    }}
 
 
+    }
 
-
-
+}
 
 
 
