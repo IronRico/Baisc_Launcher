@@ -43,7 +43,6 @@
             android:name=".KioskService"
             android:exported="false" />
 
-        <activity android:name=".AllAppsActivity" />
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
