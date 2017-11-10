@@ -38,7 +38,7 @@ public class OnScreenOffReceiver extends BroadcastReceiver {
         }
 
         // create a new wake lock...
-        wakeLock.acquire();
+        wakeLock.acquire(1*60*1000L /*10 minutes*/);
 
         // ... and release again
         wakeLock.release();

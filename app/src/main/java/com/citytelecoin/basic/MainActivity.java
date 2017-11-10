@@ -1,7 +1,13 @@
 package com.citytelecoin.basic;
 
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,15 +22,34 @@ import android.app.AlertDialog;
 import android.view.View.OnClickListener;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
 
     final Context context = this;
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(!hasFocus) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // nothing to do here
+        // … really
+    }
 
 
     @Override
@@ -35,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,12 +97,15 @@ public class MainActivity extends AppCompatActivity {
 
             // set dialog message
             exitDialogBuilder.setMessage("Password Required").setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id){
+                public void onClick(DialogInterface dialog, int id) {
 
-                if(input.getText().toString().equals("bob")){ MainActivity.this.finish();}
-                else{Toast.makeText(getApplicationContext(), "Wrong Password",Toast.LENGTH_SHORT).show();}
+                    if (input.getText().toString().equals("1234")) {
+                        MainActivity.this.finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
+                    }
 
-            }
+                }
 
             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
@@ -98,10 +125,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
 
 
-    }
-
-}
-
+    }}
 
 
 
