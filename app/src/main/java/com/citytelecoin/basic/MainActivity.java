@@ -1,20 +1,28 @@
 package com.citytelecoin.basic;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +30,9 @@ import android.app.AlertDialog;
 import android.view.View.OnClickListener;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -45,8 +56,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WindowManager manager = ((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
+
+        WindowManager.LayoutParams localLayoutParams = new WindowManager.LayoutParams();
+        localLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        localLayoutParams.gravity = Gravity.TOP;
+        localLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+
+                // this is to enable the notification to recieve touch events
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+
+                // Draws over status bar
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+
+        localLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        localLayoutParams.height = (int) (50 * getResources().getDisplayMetrics().scaledDensity);
+        localLayoutParams.format = PixelFormat.TRANSPARENT;
+
+        customViewGroup view = new customViewGroup(this);
+
+        manager.addView(view, localLayoutParams);
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         appButton = findViewById(R.id.appButton);
 
 
@@ -58,9 +93,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
+
+    public class customViewGroup extends ViewGroup {
+
+        public customViewGroup(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(MotionEvent ev) {
+            Log.v("customViewGroup", "**********Intercepted");
+            return true;
+        }
+    }
 
 
     @Override
@@ -78,11 +129,6 @@ public class MainActivity extends AppCompatActivity {
         // nothing to do here
         // … really
     }
-
-
-
-
-
 
 
     @Override
@@ -103,8 +149,43 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AlertDialog.Builder StatusDialogBuilder = new AlertDialog.Builder(context);
 
-            return true;
+            // set title
+            StatusDialogBuilder.setTitle("Enter Admin Password");
+            // Setting an EditText view to get user input
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setTransformationMethod(new PasswordTransformationMethod());
+            StatusDialogBuilder.setView(input);
+
+            // set dialog message
+            StatusDialogBuilder.setMessage("Password Required").setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    if (input.getText().toString().equals("1234")) {
+                        MainActivity.this.finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // if this button is clicked, just close
+                    // the dialog box and do nothing
+                    dialog.cancel();
+                }
+            });
+            // create alert dialog
+            AlertDialog alertDialog = StatusDialogBuilder.create();
+            // show it
+            alertDialog.show();
+
+
+            return super.onOptionsItemSelected(item);
+
 
         } else if (id == R.id.exit) {
             AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(context);
@@ -112,16 +193,16 @@ public class MainActivity extends AppCompatActivity {
             // set title
             exitDialogBuilder.setTitle("Enter Admin Password");
             // Setting an EditText view to get user input
-            final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            input.setTransformationMethod(new PasswordTransformationMethod());
-            exitDialogBuilder.setView(input);
+            final EditText input1 = new EditText(this);
+            input1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input1.setTransformationMethod(new PasswordTransformationMethod());
+            exitDialogBuilder.setView(input1);
 
             // set dialog message
             exitDialogBuilder.setMessage("Password Required").setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
-                    if (input.getText().toString().equals("1234")) {
+                    if (input1.getText().toString().equals("1234")) {
                         MainActivity.this.finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
