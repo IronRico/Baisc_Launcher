@@ -56,14 +56,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       //This Window Manager Code below helps to stop the use of the Status Bar, rather disabling it from user access with a view intercepting touches for it.
         WindowManager manager = ((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
-
         WindowManager.LayoutParams localLayoutParams = new WindowManager.LayoutParams();
         localLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
         localLayoutParams.gravity = Gravity.TOP;
         localLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
 
-                // this is to enable the notification to recieve touch events
+                // this is to enable the notification to receive touch events
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
 
                 // Draws over status bar
@@ -76,15 +76,17 @@ public class MainActivity extends AppCompatActivity {
         customViewGroup view = new customViewGroup(this);
 
         manager.addView(view, localLayoutParams);
+        //This is the end of the Window Manager bit that is used to block the Status Bar
 
 
+        //Here the Toolbar used to exit the app is provided
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        //Here we are telling the activity to find the button used to access the apps listing
         appButton = findViewById(R.id.appButton);
 
-
+        //Here the button is given the ability to take user clicks and thus take them to the new activity with the apps list
         appButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    //This Code works with the Window Manager to help block the user from accessing the Status Bar at the top of the screen
     public class customViewGroup extends ViewGroup {
 
         public customViewGroup(Context context) {
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    //This closes the system dialogs that may appear allowing app exit, (long power button press)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    //This ensures that the back button does not exit the app
     @Override
     public void onBackPressed() {
         // nothing to do here
@@ -160,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
             StatusDialogBuilder.setView(input);
 
             // set dialog message
+            //Note the hard coded password of "1234" in the if input.getText portion below.
+            //This should be changed to something more secure on a backend reception.
+            //While unlikely that an inmate would get access to final source code, it would just be better security practice.
+
             StatusDialogBuilder.setMessage("Password Required").setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
@@ -199,6 +207,10 @@ public class MainActivity extends AppCompatActivity {
             exitDialogBuilder.setView(input1);
 
             // set dialog message
+            //Note the hard coded password of "1234" in the if input.getText portion below.
+            //This should be changed to something more secure on a backend reception.
+            //While unlikely that an inmate would get access to final source code, it would just be better security practice.
+
             exitDialogBuilder.setMessage("Password Required").setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
