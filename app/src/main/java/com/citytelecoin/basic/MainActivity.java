@@ -56,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       //This Window Manager Code below helps to stop the use of the Status Bar, rather disabling it from user access with a view intercepting touches for it.
+
+
+
+
+        //Comment out starts here to disable pull down on the Status Bar.
+        //This Window Manager Code below helps to stop the use of the Status Bar, rather disabling it from user access with a view intercepting touches for it.
         WindowManager manager = ((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
         WindowManager.LayoutParams localLayoutParams = new WindowManager.LayoutParams();
         localLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
@@ -70,13 +75,14 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
 
         localLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        localLayoutParams.height = (int) (50 * getResources().getDisplayMetrics().scaledDensity);
+        localLayoutParams.height = (int) (30 * getResources().getDisplayMetrics().scaledDensity);
         localLayoutParams.format = PixelFormat.TRANSPARENT;
 
         customViewGroup view = new customViewGroup(this);
 
         manager.addView(view, localLayoutParams);
         //This is the end of the Window Manager bit that is used to block the Status Bar
+        //Comment out ends here if you want to disable the block on the pull down for the Status Bar.
 
 
         //Here the Toolbar used to exit the app is provided
@@ -172,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
 
                     if (input.getText().toString().equals("1234")) {
-                        MainActivity.this.finish();
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                     } else {
                         Toast.makeText(getApplicationContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
                     }
