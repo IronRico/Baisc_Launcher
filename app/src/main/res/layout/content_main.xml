@@ -1,10 +1,11 @@
 <RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/background_light"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    android:visibility="visible">
 
 
     <Button
@@ -14,8 +15,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="57dp"
-        android:background="@android:color/holo_green_dark"
+        android:background="@color/colorPrimary"
+        android:backgroundTint="@android:color/darker_gray"
+        android:elevation="24dp"
         android:text="Click To Open Apps"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        android:textAppearance="@android:style/TextAppearance.Large" />
 </RelativeLayout>

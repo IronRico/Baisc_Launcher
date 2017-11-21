@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,26 +65,33 @@ public class Main2Activity extends Activity {
 
     private PackageManager manager;
     private List<AppDetail> apps;
-    private void loadApplication(){
+    private void loadApplication() {
         manager = getPackageManager();
         apps = new ArrayList<AppDetail>();
         Intent Main = new Intent(Intent.ACTION_MAIN, null);
         Main.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> resolveInfos = manager.queryIntentActivities(Main, 0);
-        for(ResolveInfo ri:resolveInfos) {
+        for (ResolveInfo ri : resolveInfos) {
+            String packageName = ri.activityInfo.packageName;
+            Log.i("Package Name", packageName);
 
-            if (isSystemPackage(ri)) {
+            if (!packageName.contains("com.citytelecoin"))
 
-            } else {
+                if (!packageName.contains("com.example"))
 
-                AppDetail app = new AppDetail();
-                app.label = ri.loadLabel(manager);
-                app.name = ri.activityInfo.packageName;
-                app.icon = ri.activityInfo.loadIcon(manager);
-                apps.add(app);
+                    if (isSystemPackage(ri)) {
 
-            }
-        }}
+                    } else {
+
+                        AppDetail app = new AppDetail();
+                        app.label = ri.loadLabel(manager);
+                        app.name = ri.activityInfo.packageName;
+                        app.icon = ri.activityInfo.loadIcon(manager);
+                        apps.add(app);
+
+                    }
+        }
+    }
 
 
     //This boolean allows me to use the system app filter as see

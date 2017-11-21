@@ -8,9 +8,4 @@
         android:title="Admin"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/exit"
-        android:icon="@android:drawable/ic_secure"
-        android:title="Exit"
-        app:showAsAction="never" />
 </menu>

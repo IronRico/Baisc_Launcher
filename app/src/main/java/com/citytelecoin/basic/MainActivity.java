@@ -201,47 +201,7 @@ public class MainActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
 
 
-        } else if (id == R.id.exit) {
-            AlertDialog.Builder exitDialogBuilder = new AlertDialog.Builder(context);
 
-            // set title
-            exitDialogBuilder.setTitle("Enter Admin Password");
-            // Setting an EditText view to get user input
-            final EditText input1 = new EditText(this);
-            input1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            input1.setTransformationMethod(new PasswordTransformationMethod());
-            exitDialogBuilder.setView(input1);
-
-            // set dialog message
-            //Note the hard coded password of "1234" in the if input.getText portion below.
-            //This should be changed to something more secure on a backend reception.
-            //While unlikely that an inmate would get access to final source code, it would just be better security practice.
-
-            exitDialogBuilder.setMessage("Password Required").setCancelable(false).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-
-                    if (input1.getText().toString().equals("1234")) {
-                        MainActivity.this.finish();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // if this button is clicked, just close
-                    // the dialog box and do nothing
-                    dialog.cancel();
-                }
-            });
-            // create alert dialog
-            AlertDialog alertDialog = exitDialogBuilder.create();
-            // show it
-            alertDialog.show();
-
-
-            return super.onOptionsItemSelected(item);
         }
         return false;
     }
