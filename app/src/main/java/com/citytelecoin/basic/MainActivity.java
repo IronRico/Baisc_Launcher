@@ -47,7 +47,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button appButton;
+    Button appButton,serviceButton;
 
     final Context context = this;
 
@@ -89,8 +89,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         //Here we are telling the activity to find the button used to access the apps listing
         appButton = findViewById(R.id.appButton);
+
+        //Here we are telling the activity to find the button used to access the inmate kiosk services
+        serviceButton = findViewById(R.id.serviceButton);
 
         //Here the button is given the ability to take user clicks and thus take them to the new activity with the apps list
         appButton.setOnClickListener(new View.OnClickListener() {
@@ -98,9 +102,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
                 startActivity(myIntent);
+                          }
 
+
+        });
+
+        //Here the button is given the ability to take user clicks and launch the kiosk web view app
+        serviceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_MAIN);
+                PackageManager managerclock = getPackageManager();
+                i = managerclock.getLaunchIntentForPackage("com.example.liane.kioskapp");
+                i.addCategory(Intent.CATEGORY_LAUNCHER);
+                startActivity(i);
             }
         });
+
     }
 
     //This Code works with the Window Manager to help block the user from accessing the Status Bar at the top of the screen

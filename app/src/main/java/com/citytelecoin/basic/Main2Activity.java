@@ -94,6 +94,7 @@ public class Main2Activity extends Activity {
     }
 
 
+
     //This boolean allows me to use the system app filter as see
     // in the above if/else statement where isSystemPackage is called
     private boolean isSystemPackage(ResolveInfo resolveInfo) {
