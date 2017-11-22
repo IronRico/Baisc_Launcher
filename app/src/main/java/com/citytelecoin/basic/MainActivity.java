@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_MAIN);
                 PackageManager managerclock = getPackageManager();
-                i = managerclock.getLaunchIntentForPackage("com.example.liane.kioskapp");
+                i = managerclock.getLaunchIntentForPackage("com.example.liane.webview");
                 i.addCategory(Intent.CATEGORY_LAUNCHER);
                 startActivity(i);
             }
